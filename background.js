@@ -5,7 +5,7 @@ function replaceSelectedText(info, tab) {
   chrome.tabs.query({ currentWindow: true, active: true }, function (activeTabs) {
     chrome.tabs.sendMessage(
       activeTabs[0].id, 
-      { message: "wordfunk_replace_word", data: newText }, 
+      { message: "textfunk_replace_word", data: newText }, 
       function (response) { });
   });
 }
@@ -53,7 +53,7 @@ function requestSynonyms(word) {
 
 // Catch message from content script
 function onMessage(request, sender, sendResponse) {
-  if (request.message !== "wordfunk_word_selected" || request.data === previousLookup)
+  if (request.message !== "textfunk_word_selected" || request.data === previousLookup)
     return;
 
   // Reset the menu
