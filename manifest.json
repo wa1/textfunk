@@ -1,18 +1,33 @@
 {
-    "name": "Wordfunk",
-    "version": "0.1",
-    "description": "Get synonyms for a word, in context menu.",
-    "manifest_version": 2,
-    "background": {
-      "scripts": ["background.js"]      
-    },
-    "content_scripts": [ {
-       "all_frames": true,
-       "js": [ "content.js" ],
-       "match_about_blank": true,
-       "matches": [ "<all_urls>" ]
-    } ],
-    "permissions": [
-      "contextMenus", "tabs"
+  "name": "Wordfunk",
+  "version": "0.1",
+  "description": "Get synonyms for a word, in context menu.",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "background.js"
     ]
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": [
+        "content.js"
+      ],
+      "match_about_blank": true,
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "permissions": [
+    "contextMenus",
+    "tabs"
+  ],
+  "icons": {
+    "16": "icons/tf16.png",
+    "32": "icons/tf32.png",
+    "48": "icons/tf48.png",
+    "128": "icons/tf128.png"
   }
+}
