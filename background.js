@@ -1,7 +1,7 @@
 var previousLookup = "";
 
 function replaceSelectedText(info, tab) {
-  var newText = info.menuItemId;
+  let newText = info.menuItemId;
   chrome.tabs.query({ currentWindow: true, active: true }, function (activeTabs) {
     chrome.tabs.sendMessage(
       activeTabs[0].id, 
@@ -14,7 +14,7 @@ function replaceSelectedText(info, tab) {
 function addChoices(words) {
   var menu = chrome.contextMenus.create(
     { 
-      title: "Synonym for '%s'", 
+      title: "Synonym(s) for '%s'", 
       contexts: ["selection"] 
     });
 
@@ -35,13 +35,13 @@ function addChoices(words) {
 }
 
 function requestSynonyms(word) {
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open("GET", "https://api.datamuse.com/words?rel_syn=" + word, true);
   xhr.onload = function () {
     if (this.readyState === 4) {
       if (this.status === 200) {
         console.log(this.responseText);
-        var wordList = JSON.parse(this.responseText);
+        let wordList = JSON.parse(this.responseText);
         addChoices(wordList);
       } else {
         console.error(this.statusText);
@@ -59,10 +59,13 @@ function onMessage(request, sender, sendResponse) {
   // Reset the menu
   chrome.contextMenus.removeAll();
 
-  requestSynonyms(request.data);
+  let trimmed = request.data.trim();
+  let lower = trimmed.toLowerCase();
+
+  requestSynonyms(lower);
 
   // Save results in case user opens context menu for same word again
-  previousLookup = request.data;
+  previousLookup = lower;
 }
 
 chrome.runtime.onMessage.addListener(onMessage);
